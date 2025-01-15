@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -40,5 +41,29 @@ public class TopicoController {
             @RequestParam String nombreCurso,
             @RequestParam int año) {
         return topicoService.obtenerTopicosPorCursoYAnio(nombreCurso, año);
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Topico> obtenerTopicoPorId(@PathVariable Long id) {
+        Optional<Topico> topico = topicoService.obtenerTopicoPorId(id);
+        if (topico.isPresent()) {
+            return ResponseEntity.ok(topico.get());  // Devuelve el topico en formato JSON
+        } else {
+            return ResponseEntity.notFound().build();  // Devuelve un error 404 si no se encuentra el topico
+        }
+    }
+
+    // Endpoint para actualizar un topico por ID
+    @PutMapping("/{id}")
+    public ResponseEntity<Topico> actualizarTopico(@PathVariable Long id, @RequestBody Topico topicoActualizado) {
+        // Llamar al servicio para actualizar el topico
+        Topico topico = topicoService.actualizarTopico(id, topicoActualizado);
+
+        if (topico != null) {
+            // Si el topico se actualizó correctamente, devolverlo con código 200 OK
+            return ResponseEntity.ok(topico);
+        } else {
+            // Si no se encuentra el topico con ese ID, devolver error 404
+            return ResponseEntity.notFound().build();
+        }
     }
 }

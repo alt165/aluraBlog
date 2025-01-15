@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TopicoService {
@@ -47,5 +48,27 @@ public class TopicoService {
     }
     public List<Topico> obtenerTopicosPorCursoYAnio(String nombreCurso, int año) {
         return topicoRepository.findByCursoNombreAndFechaCreacionYear(nombreCurso, año);
+    }
+    public Optional<Topico> obtenerTopicoPorId(Long id) {
+        return topicoRepository.findById(id);
+    }
+    // Método para actualizar un topico
+    public Topico actualizarTopico(Long id, Topico topicoActualizado) {
+        // Verificar si el topico con el ID proporcionado existe
+        Optional<Topico> topicoExistente = topicoRepository.findById(id);
+        if (topicoExistente.isPresent()) {
+            Topico topico = topicoExistente.get();
+
+            // Actualizar los campos del topico
+            topico.setTitulo(topicoActualizado.getTitulo());
+            topico.setMensaje(topicoActualizado.getMensaje());
+            topico.setStatus(topicoActualizado.getStatus());
+            topico.setFechaCreacion(topicoActualizado.getFechaCreacion());
+            topico.setCurso(topicoActualizado.getCurso());  // Si es necesario actualizar el curso
+
+            // Guardar el topico actualizado
+            return topicoRepository.save(topico);
+        }
+        return null;  // Si el topico no existe, retornamos null
     }
 }
