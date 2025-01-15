@@ -1,4 +1,6 @@
 package com.aluraBlog.aluraBlog.domain.entities.DTOs;
 
-public class PerfilDTO {
+import jakarta.validation.constraints.NotNull;
+
+public record PerfilDTO(@NotNull Long id, @NotNull String nombre) {
 }
