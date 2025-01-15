@@ -71,4 +71,14 @@ public class TopicoService {
         }
         return null;  // Si el topico no existe, retornamos null
     }
+    // Método para eliminar un topico por ID
+    public boolean eliminarTopico(Long id) {
+        // Verificar si el topico existe
+        Optional<Topico> topicoExistente = topicoRepository.findById(id);
+        if (topicoExistente.isPresent()) {
+            topicoRepository.deleteById(id);  // Eliminar el topico
+            return true;  // Retornar true si la eliminación fue exitosa
+        }
+        return false;  // Retornar false si el topico no fue encontrado
+    }
 }

@@ -66,4 +66,18 @@ public class TopicoController {
             return ResponseEntity.notFound().build();
         }
     }
+    // Endpoint para eliminar un topico por ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminarTopico(@PathVariable Long id) {
+        // Llamar al servicio para eliminar el topico
+        boolean eliminado = topicoService.eliminarTopico(id);
+
+        if (eliminado) {
+            // Si el topico fue eliminado correctamente, retornar un mensaje de éxito
+            return ResponseEntity.ok("Tópico eliminado correctamente.");
+        } else {
+            // Si el topico no existe, retornar error 404
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
