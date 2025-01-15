@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TopicoService {
 
@@ -42,5 +44,8 @@ public class TopicoService {
     }
     public Page<Topico> obtenerTopicos(Pageable pageable) {
         return topicoRepository.findAll(pageable);  // Devuelve los topicos paginados
+    }
+    public List<Topico> obtenerTopicosPorCursoYAnio(String nombreCurso, int año) {
+        return topicoRepository.findByCursoNombreAndFechaCreacionYear(nombreCurso, año);
     }
 }

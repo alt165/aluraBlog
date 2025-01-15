@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/topicos")
 public class TopicoController {
@@ -32,5 +34,11 @@ public class TopicoController {
     public Page<Topico> obtenerTopicos(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         return topicoService.obtenerTopicos(pageable);
+    }
+    @GetMapping
+    public List<Topico> obtenerTopicosPorCursoYAnio(
+            @RequestParam String nombreCurso,
+            @RequestParam int año) {
+        return topicoService.obtenerTopicosPorCursoYAnio(nombreCurso, año);
     }
 }
